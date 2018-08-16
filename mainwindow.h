@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QSettings>
 #include "communicationthread.h"
 #include <QTimer>
 
@@ -41,7 +42,10 @@ private slots:
 
     void on_tcpRadioButton_toggled(bool checked);
 
+    void on_ipEdit_textChanged(const QString &arg1);
+
 private:
+    QSettings settings;
     bool isReady = false;
     QTimer timer;
     CommunicationThread m_thread;

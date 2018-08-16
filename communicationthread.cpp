@@ -87,8 +87,6 @@ void CommunicationThread::close()
     all declared variables are on a different stack **/
 void CommunicationThread::run()
 {
-
-
     while(!m_quit){
         sleep(1); // to prevent running on the loop too fast, in case of error
 
@@ -140,9 +138,33 @@ void CommunicationThread::run()
         }
 
     } // main while
+}
 
+bool CommunicationThread::startSocket(QAbstractSocket &socket, const QString &ip, const quint16 &port)
+{
+    qInfo() << "creating socket instance with" << ip << ":" << port;
+    QHostAddress addr(ip);
+    // if a hostname was given, look up for its ip addresses
+    if(addr.isNull()){
+        qInfo() <<"looking up for" << ip << "name...";
+        QHostInfo info = QHostInfo::fromName(ip);
+        if(info.addresses().isEmpty()) return false; // continue the loop
+        qInfo() << info.addresses();
+        // get the first ipv4 address
+        for(int i=0; i<info.addresses().length(); i++){
+            QHostAddress addr = info.addresses()[i];
+            if(addr.protocol() == QAbstractSocket::IPv4Protocol){
+                socket.connectToHost(addr, port);
+                break;
+            }
+        }
 
-
+    }else{
+        socket.connectToHost(addr, port);
+    }
+    //socket.write(QByteArray("Hello"));
+    qInfo() << "remote port:" << socket.localPort();
+    return true;
 }
 
 void CommunicationThread::startDeviceLoop(QIODevice &device)
@@ -192,29 +214,4 @@ void CommunicationThread::startDeviceLoop(QIODevice &device)
 
 }
 
-bool CommunicationThread::startSocket(QAbstractSocket &socket, const QString &ip, const quint16 &port)
-{
-    qInfo() << "creating socket instance with" << ip << ":" << port;
-    QHostAddress addr(ip);
-    // if a hostname was given, look up for its ip addresses
-    if(addr.isNull()){
-        qInfo() <<"looking up for" << ip << "name...";
-        QHostInfo info = QHostInfo::fromName(ip);
-        if(info.addresses().isEmpty()) return false; // continue the loop
-        qInfo() << info.addresses();
-        // get the first ipv4 address
-        for(int i=0; i<info.addresses().length(); i++){
-            QHostAddress addr = info.addresses()[i];
-            if(addr.protocol() == QAbstractSocket::IPv4Protocol){
-                socket.connectToHost(addr, port);
-                break;
-            }
-        }
 
-    }else{
-        socket.connectToHost(addr, port);
-    }
-    //socket.write(QByteArray("Hello"));
-    qInfo() << "remote port:" << socket.localPort();
-    return true;
-}

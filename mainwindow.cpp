@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
    // m_thread.startPort("/dev/ttyACM0", 10);
 
+    ui->ipEdit->setText(settings.value("MainWindow/ipEdit").toString());
+
     connect(&timer, &QTimer::timeout, [=](){
         sendMessage(ui->horizontalSlider->value());
     });
@@ -112,4 +114,9 @@ void MainWindow::on_tcpRadioButton_toggled(bool checked)
         m_thread.startTcp(ui->tcpPortEdit->text().toInt(),
                           ui->ipEdit->text());
     }
+}
+
+void MainWindow::on_ipEdit_textChanged(const QString &arg1)
+{
+    settings.setValue("MainWindow/ipEdit", arg1);
 }
