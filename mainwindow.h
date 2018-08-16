@@ -18,18 +18,35 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void sendMessage(int arg1);
 
 private slots:
     void on_pushButton_clicked();
-    void on_latencySpinBox_valueChanged(int arg1);
-    void scheduleData();
+
 
     void on_stopbutton_clicked();
 
+    void on_serialPortComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_horizontalSlider_sliderPressed();
+
+    void on_horizontalSlider_sliderReleased();
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_radioButton_3_toggled(bool checked);
+
+    void on_udpRadioButton_toggled(bool checked);
+
+
+    void on_tcpRadioButton_toggled(bool checked);
+
 private:
-    QTimer *timer;
+    bool isReady = false;
+    QTimer timer;
     CommunicationThread m_thread;
     Ui::MainWindow *ui;
+    void fillSerialPortList();
 };
 
 #endif // MAINWINDOW_H
