@@ -12,10 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
    // m_thread.startPort("/dev/ttyACM0", 10);
 
     ui->ipEdit->setText(settings.value("MainWindow/ipEdit").toString());
+    ui->latencySlider->setValue(settings.value("MainWindow/latencySlider").toInt());
+    ui->rateSlider->setValue(settings.value("MainWindow/rateSlider").toInt());
 
-    connect(&timer, &QTimer::timeout, [=](){
-        sendMessage(ui->latencySlider->value());
-    });
+//    connect(&timer, &QTimer::timeout, [=](){
+//        sendMessage();
+//    });
 
     connect(&m_thread, &CommunicationThread::error, [=](const QString s){
         qInfo() << s;
@@ -44,12 +46,13 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::sendMessage(int arg1)
+void MainWindow::sendMessage()
 {
     QString rateText = ui->rateSpinBox->text();
+    QString latencyText = ui->latencySpinBox->text();
 
-    uint8_t rate = rateText.toUInt();
-    uint8_t latency = (uint8_t)arg1;
+    uint8_t rate =    rateText.toUInt();
+    uint8_t latency = latencyText.toUInt();
 
     unsigned char bytes [] {0xff, rate, latency};
     QByteArray barr( ((char*)bytes), 3);
@@ -78,7 +81,8 @@ void MainWindow::on_serialPortComboBox_currentIndexChanged(const QString &arg1)
 
 void MainWindow::on_latencySlider_valueChanged(int value)
 {
-   sendMessage(value);
+   settings.setValue("MainWindow/latencySlider", value);
+   sendMessage();
 }
 
 
@@ -115,4 +119,10 @@ void MainWindow::on_serialRadioButton_toggled(bool checked)
 void MainWindow::update_roll(double roll)
 {
     ui->rollLCD->setText(QString::number(roll));
+}
+
+void MainWindow::on_rateSlider_valueChanged(int value)
+{
+    settings.setValue("MainWindow/rateSlider", value);
+    sendMessage();
 }

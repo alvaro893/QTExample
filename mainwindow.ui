@@ -82,7 +82,7 @@
            <item>
             <widget class="QComboBox" name="serialPortComboBox">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -247,6 +247,12 @@
                     <height>0</height>
                    </size>
                   </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -297,12 +303,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>38</x>
-     <y>57</y>
+     <x>59</x>
+     <y>52</y>
     </hint>
     <hint type="destinationlabel">
-     <x>223</x>
-     <y>60</y>
+     <x>324</x>
+     <y>53</y>
     </hint>
    </hints>
   </connection>
@@ -313,28 +319,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>59</x>
-     <y>90</y>
+     <x>80</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
-     <x>225</x>
-     <y>92</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>serialRadioButton</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>serialPortComboBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>96</x>
-     <y>118</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>223</x>
-     <y>121</y>
+     <x>326</x>
+     <y>79</y>
     </hint>
    </hints>
   </connection>
@@ -345,12 +335,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>90</y>
+     <x>92</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
-     <x>74</x>
-     <y>142</y>
+     <x>93</x>
+     <y>133</y>
     </hint>
    </hints>
   </connection>
@@ -361,12 +351,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>36</x>
-     <y>90</y>
+     <x>57</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
-     <x>66</x>
-     <y>145</y>
+     <x>85</x>
+     <y>133</y>
     </hint>
    </hints>
   </connection>
@@ -381,8 +371,8 @@
      <y>50</y>
     </hint>
     <hint type="destinationlabel">
-     <x>54</x>
-     <y>145</y>
+     <x>73</x>
+     <y>133</y>
     </hint>
    </hints>
   </connection>
@@ -393,12 +383,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>263</x>
-     <y>310</y>
+     <x>401</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
-     <x>772</x>
-     <y>313</y>
+     <x>665</x>
+     <y>305</y>
     </hint>
    </hints>
   </connection>
@@ -409,12 +399,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>228</x>
-     <y>377</y>
+     <x>366</x>
+     <y>376</y>
     </hint>
     <hint type="destinationlabel">
-     <x>771</x>
-     <y>377</y>
+     <x>665</x>
+     <y>375</y>
     </hint>
    </hints>
   </connection>
@@ -425,12 +415,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>761</x>
-     <y>302</y>
+     <x>665</x>
+     <y>305</y>
     </hint>
     <hint type="destinationlabel">
-     <x>396</x>
-     <y>316</y>
+     <x>534</x>
+     <y>306</y>
     </hint>
    </hints>
   </connection>
@@ -441,8 +431,8 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>364</y>
+     <x>665</x>
+     <y>375</y>
     </hint>
     <hint type="destinationlabel">
      <x>478</x>

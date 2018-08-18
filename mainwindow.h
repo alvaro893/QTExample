@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void sendMessage(int arg1);
+    void sendMessage();
 
 private slots:
     void on_serialPortComboBox_currentIndexChanged(const QString &arg1);
@@ -35,6 +35,8 @@ private slots:
     void on_serialRadioButton_toggled(bool checked);
 
     void update_roll(double roll);
+
+    void on_rateSlider_valueChanged(int value);
 
 private:
     QSettings settings;

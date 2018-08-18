@@ -121,8 +121,8 @@ void CommunicationThread::run()
                 emit error(tr("Cannot open %1, error code %2")
                            .arg(currentPortName, serial.error()));
                 //flush first
-                serial.flush();
-                serial.waitForBytesWritten(1000);
+//                serial.flush();
+//                serial.waitForBytesWritten(1000);
                 //
                 continue;
             }
@@ -225,7 +225,7 @@ void CommunicationThread::startDeviceLoop(QIODevice &device)
         // write to device AFTER selected delay
         if(writeTimer - millis() > queueDelay && !shouldDequeue){
             device.write(barr);
-            if(device.waitForBytesWritten(DEFAULT_TIMEOUT)){
+            if(device.waitForBytesWritten(100)){
                 qDebug("wrote %d bytes with %lli delay", barr.size(), queueDelay);
             }
 
