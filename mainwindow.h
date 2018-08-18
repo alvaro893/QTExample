@@ -22,27 +22,19 @@ public:
     void sendMessage(int arg1);
 
 private slots:
-    void on_pushButton_clicked();
-
-
-    void on_stopbutton_clicked();
-
     void on_serialPortComboBox_currentIndexChanged(const QString &arg1);
 
-    void on_horizontalSlider_sliderPressed();
-
-    void on_horizontalSlider_sliderReleased();
-
-    void on_horizontalSlider_valueChanged(int value);
-
-    void on_radioButton_3_toggled(bool checked);
+    void on_latencySlider_valueChanged(int value);
 
     void on_udpRadioButton_toggled(bool checked);
-
 
     void on_tcpRadioButton_toggled(bool checked);
 
     void on_ipEdit_textChanged(const QString &arg1);
+
+    void on_serialRadioButton_toggled(bool checked);
+
+    void update_roll(double roll);
 
 private:
     QSettings settings;

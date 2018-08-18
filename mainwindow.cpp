@@ -14,17 +14,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ipEdit->setText(settings.value("MainWindow/ipEdit").toString());
 
     connect(&timer, &QTimer::timeout, [=](){
-        sendMessage(ui->horizontalSlider->value());
+        sendMessage(ui->latencySlider->value());
     });
 
     connect(&m_thread, &CommunicationThread::error, [=](const QString s){
         qInfo() << s;
     });
 
-    connect(&m_thread, &CommunicationThread::timeout, [=](const QString s){
-        qInfo() << s;
+    connect(&m_thread, &CommunicationThread::yaw, [&](double f){
+        ui->yawLCD->setText(QString::number(f));
     });
 
+    connect(&m_thread, &CommunicationThread::pitch, [&](double f){
+        ui->pitchLCD->setText(QString::number(f));
+    });
+
+    connect(&m_thread, &CommunicationThread::roll, [&](double f){
+        ui->rollLCD->setText(QString::number(f));
+    });
+
+    //connect(&m_thread, &CommunicationThread::roll, this, &MainWindow::update_roll );
     fillSerialPortList();
 
 }
@@ -34,15 +43,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    timer.start(ui->timeEdit->text().toInt());
-
-}
 
 void MainWindow::sendMessage(int arg1)
 {
-    QString rateText = ui->rateEdit->text();
+    QString rateText = ui->rateSpinBox->text();
 
     uint8_t rate = rateText.toUInt();
     uint8_t latency = (uint8_t)arg1;
@@ -52,11 +56,6 @@ void MainWindow::sendMessage(int arg1)
     m_thread.squeduleWrite(barr, 15);
 }
 
-
-void MainWindow::on_stopbutton_clicked()
-{
-    timer.stop();
-}
 
 
 void MainWindow::fillSerialPortList()
@@ -77,25 +76,11 @@ void MainWindow::on_serialPortComboBox_currentIndexChanged(const QString &arg1)
     }
 }
 
-void MainWindow::on_horizontalSlider_sliderPressed()
-{
-    //timer.start(ui->timeEdit->text().toInt());
-}
-
-void MainWindow::on_horizontalSlider_sliderReleased()
-{
-    //timer.stop();
-}
-
-void MainWindow::on_horizontalSlider_valueChanged(int value)
+void MainWindow::on_latencySlider_valueChanged(int value)
 {
    sendMessage(value);
 }
 
-void MainWindow::on_radioButton_3_toggled(bool checked)
-{
-
-}
 
 void MainWindow::on_udpRadioButton_toggled(bool checked)
 {
@@ -105,7 +90,6 @@ void MainWindow::on_udpRadioButton_toggled(bool checked)
                           ui->ipEdit->text());
     }
 }
-
 
 void MainWindow::on_tcpRadioButton_toggled(bool checked)
 {
@@ -119,4 +103,16 @@ void MainWindow::on_tcpRadioButton_toggled(bool checked)
 void MainWindow::on_ipEdit_textChanged(const QString &arg1)
 {
     settings.setValue("MainWindow/ipEdit", arg1);
+}
+
+void MainWindow::on_serialRadioButton_toggled(bool checked)
+{
+    if(ui->serialRadioButton->isChecked()){
+        m_thread.startPort(ui->serialPortComboBox->currentText(), 10);
+    }
+}
+
+void MainWindow::update_roll(double roll)
+{
+    ui->rollLCD->setText(QString::number(roll));
 }
