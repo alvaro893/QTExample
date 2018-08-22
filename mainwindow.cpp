@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->latencySlider->setValue(settings.value("MainWindow/latencySlider").toInt());
     ui->rateSlider->setValue(settings.value("MainWindow/rateSlider").toInt());
 
-//    connect(&timer, &QTimer::timeout, [=](){
-//        sendMessage();
-//    });
+    connect(&timer, &QTimer::timeout, [=](){
+        sendMessage();
+    });
+    timer.setInterval(1000/30);
 
     connect(&m_thread, &CommunicationThread::error, [=](const QString s){
         qInfo() << s;
@@ -81,8 +82,10 @@ void MainWindow::on_serialPortComboBox_currentIndexChanged(const QString &arg1)
 
 void MainWindow::on_latencySlider_valueChanged(int value)
 {
+    if(!timer.isActive()){
+        sendMessage();
+    }
    settings.setValue("MainWindow/latencySlider", value);
-   sendMessage();
 }
 
 
@@ -125,4 +128,22 @@ void MainWindow::on_rateSlider_valueChanged(int value)
 {
     settings.setValue("MainWindow/rateSlider", value);
     sendMessage();
+}
+
+void MainWindow::on_latencySlider_sliderMoved(int position)
+{
+
+}
+
+void MainWindow::on_latencySlider_sliderPressed()
+{
+    qInfo() << "sliderPressed";
+    timer.start();
+
+}
+
+void MainWindow::on_latencySlider_sliderReleased()
+{
+    qInfo() << "sliderReleased";
+    timer.stop();
 }

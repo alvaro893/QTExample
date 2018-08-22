@@ -38,6 +38,12 @@ private slots:
 
     void on_rateSlider_valueChanged(int value);
 
+    void on_latencySlider_sliderMoved(int position);
+
+    void on_latencySlider_sliderPressed();
+
+    void on_latencySlider_sliderReleased();
+
 private:
     QSettings settings;
     bool isReady = false;
@@ -45,6 +51,7 @@ private:
     CommunicationThread m_thread;
     Ui::MainWindow *ui;
     void fillSerialPortList();
+    inline quint64 millis() const {return QDateTime::currentMSecsSinceEpoch();}
 };
 
 #endif // MAINWINDOW_H
